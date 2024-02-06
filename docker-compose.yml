@@ -1,0 +1,74 @@
+version: '3.3'
+services:
+  movie:
+    build:
+      context: .
+      dockerfile: ./apps/movie/Dockerfile
+      target: development
+    command: npm run start:dev movie
+    env_file:
+      - .env
+      # - ./apps/movie/.env
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports: 
+      - "${MOVIE_PORT}:${MOVIE_PORT}"
+  user:
+    build:
+      context: .
+      dockerfile: ./apps/user/Dockerfile
+      target: development
+    command: npm run start:dev user
+    env_file:
+      - .env
+      # - ./apps/user/.env
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports: 
+      - "${USER_PORT}:${USER_PORT}"
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    env_file:
+      - .env
+      # - ./apps/auth/.env
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports: 
+      - "${AUTH_PORT}:${AUTH_PORT}"
+
+  rabbitmq:
+    image: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: movie
+      POSTGRES_PASSWORD: movie
+      POSTGRES_DB: movie
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+ 
+volumes:
+  pgdata:
+    driver: local
