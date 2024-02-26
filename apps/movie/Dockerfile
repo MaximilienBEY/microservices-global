@@ -15,19 +15,20 @@ COPY . .
 RUN npm run build
 
 FROM node:18-alpine as production
-
-RUN npx prisma generate
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+RUN apk add python3 make g++
 
 WORKDIR /usr/src/app
 
 COPY package*.json prisma ./
 
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
 RUN npm install --only=production
+RUN npx prisma generate
 
 COPY . .
+RUN npm rebuild bcrypt --build-from-source
 
 COPY --from=development /usr/src/app/dist ./dist
 

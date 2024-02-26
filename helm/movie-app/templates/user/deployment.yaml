@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+      - name: user
+        image: "movie-app-user:latest"
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 3002
+        env: 
+          - name: USER_PORT
+            value: "3002"
+          - name: RABBIT_MQ_USER_QUEUE
+            value: "user"
+          - name: RABBIT_MQ_AUTH_QUEUE
+            value: "auth"
+          - name: DATABASE_URL
+            value: postgresql://movie:movie@movie-app-postgresql:5432/movie?schema=public
+          - name : RABBIT_MQ_URL
+            value: amqp://movie:movie@movie-app-rabbitmq:5672
