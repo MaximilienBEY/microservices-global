@@ -52,8 +52,12 @@ export class UserService {
         data: { ...body, password: hashedPassword },
         select: selectedFields,
       })
-      .catch(() => {
-        throw new BadRequestException("Email already used")
+      .catch(e => {
+        if (e.code === "P2002") {
+          throw new BadRequestException("Email already used")
+        } else {
+          throw e
+        }
       })
   }
   async update(id: string, body: UserUpdateType) {

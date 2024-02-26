@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import { ClientsModule, Transport } from "@nestjs/microservices"
+import { ClientsModule, ClientsProviderAsyncOptions, Transport } from "@nestjs/microservices"
 
 import { RmqService } from "./rmq.service"
 
 interface RmqModuleOptions {
-  name: string
+  name: string | string[]
 }
 
 @Module({
@@ -13,23 +13,28 @@ interface RmqModuleOptions {
   exports: [RmqService],
 })
 export class RmqModule {
+  private static getClientProviderOptions(name: string): ClientsProviderAsyncOptions {
+    return {
+      name,
+      useFactory: (config: ConfigService) => ({
+        transport: Transport.RMQ,
+        options: {
+          urls: [config.get<string>("RABBIT_MQ_URL")!],
+          queue: config.get<string>(`RABBIT_MQ_${name}_QUEUE`)!,
+        },
+      }),
+      inject: [ConfigService],
+    }
+  }
   static register({ name }: RmqModuleOptions): DynamicModule {
     return {
       module: RmqModule,
       imports: [
-        ClientsModule.registerAsync([
-          {
-            name,
-            useFactory: (config: ConfigService) => ({
-              transport: Transport.RMQ,
-              options: {
-                urls: [config.get<string>("RABBIT_MQ_URL")!],
-                queue: config.get<string>(`RABBIT_MQ_${name}_QUEUE`)!,
-              },
-            }),
-            inject: [ConfigService],
-          },
-        ]),
+        ClientsModule.registerAsync(
+          Array.isArray(name)
+            ? name.map(n => this.getClientProviderOptions(n))
+            : [this.getClientProviderOptions(name)],
+        ),
       ],
       exports: [ClientsModule],
     }

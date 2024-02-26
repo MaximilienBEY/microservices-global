@@ -8,7 +8,6 @@ services:
     command: npm run start:dev movie
     env_file:
       - .env
-      # - ./apps/movie/.env
     depends_on:
       - db
       - rabbitmq
@@ -25,7 +24,6 @@ services:
     command: npm run start:dev user
     env_file:
       - .env
-      # - ./apps/user/.env
     depends_on:
       - db
       - rabbitmq
@@ -42,7 +40,6 @@ services:
     command: npm run start:dev auth
     env_file:
       - .env
-      # - ./apps/auth/.env
     depends_on:
       - db
       - rabbitmq
@@ -58,7 +55,7 @@ services:
     ports:
       - 5672:5672
   db:
-    image: postgres
+    image: postgres:latest
     restart: always
     environment:
       POSTGRES_USER: movie
@@ -68,6 +65,18 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+  init_db:
+    build:
+      context: .
+      dockerfile: ./database/Dockerfile
+      target: development
+      args:
+        - DATABASE_URL=${DATABASE_URL}
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: ["/bin/sh", "-c", "/usr/wait-for-it.sh db:5432 -- npx prisma db push"]
  
 volumes:
   pgdata:
