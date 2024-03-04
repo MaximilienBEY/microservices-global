@@ -1,3 +1,6 @@
 [submodule "apps/movie"]
 	path = apps/movie
 	url = git@github.com:MaximilienBEY/microservices-movie.git
+[submodule "apps/auth"]
+	path = apps/auth
+	url = git@github.com:MaximilienBEY/microservices-auth.git
