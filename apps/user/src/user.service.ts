@@ -5,7 +5,7 @@ import { User } from "@prisma/client"
 import * as bcrypt from "bcrypt"
 
 const selectedFields = {
-  id: true,
+  uid: true,
   email: true,
   name: true,
   role: true,
@@ -32,10 +32,10 @@ export class UserService {
       select: selectedFields,
     })
   }
-  async findOne(id: string) {
+  async findOne(uid: string) {
     return this.prisma.user
       .findFirstOrThrow({
-        where: { id },
+        where: { uid },
         select: selectedFields,
       })
       .catch(() => {
@@ -60,16 +60,16 @@ export class UserService {
         }
       })
   }
-  async update(id: string, body: UserUpdateType) {
+  async update(uid: string, body: UserUpdateType) {
     const hashedPassword = body.password ? await this.hashPassword(body.password) : undefined
     return this.prisma.user.update({
-      where: { id },
+      where: { uid },
       data: { ...body, ...(hashedPassword && { password: hashedPassword }) },
       select: selectedFields,
     })
   }
-  async remove(id: string) {
-    return this.prisma.user.delete({ where: { id } }).catch(() => {
+  async remove(uid: string) {
+    return this.prisma.user.delete({ where: { uid } }).catch(() => {
       throw new NotFoundException("User not found")
     })
   }

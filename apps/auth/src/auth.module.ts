@@ -1,12 +1,10 @@
 import { PrismaModule } from "@app/common"
-import { AuthModule as CommonAuthModule } from "@app/common/auth/auth.module"
-import { AuthGuard } from "@app/common/auth/guards/auth.guard"
+import { AppAuthModule } from "@app/common/auth/auth.module"
 import { RmqModule } from "@app/common/rmq/rmq.module"
+import { AppThrottlerModule } from "@app/common/throttler/throttler.module"
 import { Module } from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config"
-import { APP_GUARD } from "@nestjs/core"
 import { JwtModule } from "@nestjs/jwt"
-import { ThrottlerModule } from "@nestjs/throttler"
 import * as joi from "joi"
 
 import { AuthController } from "./auth.controller"
@@ -19,10 +17,7 @@ import { AuthService } from "./auth.service"
       validationSchema: joi.object({
         DATABASE_URL: joi.string().required(),
         JWT_SECRET: joi.string().required(),
-
         RABBIT_MQ_URL: joi.string().required(),
-        RABBIT_MQ_USER_QUEUE: joi.string().required(),
-        RABBIT_MQ_AUTH_QUEUE: joi.string().required(),
       }),
       envFilePath: "./apps/auth/.env",
     }),
@@ -30,12 +25,12 @@ import { AuthService } from "./auth.service"
       global: true,
       secret: process.env.JWT_SECRET,
     }),
-    ThrottlerModule.forRoot([{ ttl: 60 * 1000, limit: 100 }]), // 100 requests per minute
     RmqModule.register({ name: "USER" }),
     PrismaModule,
-    CommonAuthModule,
+    AppAuthModule,
+    AppThrottlerModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, { provide: APP_GUARD, useClass: AuthGuard }],
+  providers: [AuthService],
 })
 export class AuthModule {}

@@ -10,20 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Image {
-  id        String   @id @default(uuid())
+model Poster {
+  uid       String   @id @default(uuid())
   url       String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  movieId String @unique
-  movie   Movie  @relation(fields: [movieId], references: [id])
+  movieUid String @unique
+  movie    Movie  @relation(fields: [movieUid], references: [uid])
 
-  @@map("images")
+  @@map("posters")
 }
 
 model Category {
-  id        String   @id @default(uuid())
+  uid       String   @id @default(uuid())
   name      String   @unique
   movies    Movie[]
   createdAt DateTime @default(now())
@@ -33,22 +33,23 @@ model Category {
 }
 
 model Movie {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  releaseAt   DateTime
-  rating      Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  uid                     String   @id @default(uuid())
+  name                    String
+  description             String
+  rate                    Int
+  duration                Int
+  hasReservationAvailable Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 
-  poster     Image?
+  poster     Poster?
   categories Category[]
 
   @@map("movies")
 }
 
 model User {
-  id        String   @id @default(uuid())
+  uid       String   @id @default(uuid())
   name      String
   email     String   @unique
   role      String   @default("USER")
@@ -68,9 +69,9 @@ model RefreshToken {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userUid], references: [uid])
 
-  userId String
+  userUid String
 
   @@map("refresh_tokens")
 }

@@ -1,11 +1,12 @@
 import { z } from "nestjs-zod/z"
 
 export const movieSchema = z.object({
-  id: z.string(),
-  title: z.string(),
+  uid: z.string(),
+  name: z.string(),
   description: z.string(),
-  releaseAt: z.date(),
-  rating: z.number().min(0).max(5).nullable(),
+  rate: z.coerce.number().int().min(0).max(5),
+  duration: z.coerce.number().int().min(0).max(240),
+  hasReservationAvailable: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
@@ -29,14 +30,26 @@ export const movieListResponseSchema = z.object({
 })
 
 // Create movie request
-export const movieCreateSchema = z.object({
-  title: z.string().min(1).max(128),
-  description: z.string().min(1).max(2048),
-  releaseAt: z.coerce.date(),
-  rating: z.coerce.number().min(0).max(5).optional(),
-  categories: z.array(z.string()).min(1),
-  poster: z.any().optional(),
-})
+export const movieCreateSchema = movieSchema
+  .omit({
+    uid: true,
+    createdAt: true,
+    updatedAt: true,
+    hasReservationAvailable: true,
+  })
+  .extend({
+    hasReservationAvailable: z.boolean().optional(),
+    categories: z.array(z.string()),
+    poster: z.any().optional(),
+  })
+// export const movieCreateSchema = z.object({
+//   title: z.string().min(1).max(128),
+//   description: z.string().min(1).max(2048),
+//   releaseAt: z.coerce.date(),
+//   rating: z.coerce.number().min(0).max(5).optional(),
+//   categories: z.array(z.string()).min(1),
+//   poster: z.any().optional(),
+// })
 
 // Update movie request
 export const movieUpdateSchema = movieCreateSchema.partial()

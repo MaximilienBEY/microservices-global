@@ -7,6 +7,7 @@ import {
   RegisterType,
   UserMeUpdateType,
 } from "@app/common/schemas/auth/types"
+import { UserReadType } from "@app/common/schemas/user/types"
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { ClientProxy } from "@nestjs/microservices"
@@ -22,13 +23,13 @@ export class AuthService {
     // private readonly userService: UserService,
   ) {}
 
-  private async generateTokens(userId: string): Promise<AuthTokensType> {
+  private async generateTokens(userUid: string): Promise<AuthTokensType> {
     const rToken = generateToken(32)
     const expiredAt = new Date(new Date().getTime() + 1 * 60 * 60 * 1000) // 1 hour
-    await this.prisma.refreshToken.create({ data: { token: rToken, expiredAt, userId } })
+    await this.prisma.refreshToken.create({ data: { token: rToken, expiredAt, userUid } })
 
     const refreshToken = await this.jwtService.signAsync({ sub: rToken }, { expiresIn: "1h" })
-    const accessToken = await this.jwtService.signAsync({ sub: userId }, { expiresIn: "5m" })
+    const accessToken = await this.jwtService.signAsync({ sub: userUid }, { expiresIn: "5m" })
 
     return { refreshToken, accessToken }
   }
@@ -43,7 +44,7 @@ export class AuthService {
   }
 
   async loginUser(email: string, password: string): Promise<AuthResponseType> {
-    const user = await lastValueFrom(
+    const user: UserReadType = await lastValueFrom(
       this.userClient.send("user.find.email", { email }).pipe(
         catchError(() => {
           throw new NotFoundException("User not found")
@@ -54,7 +55,7 @@ export class AuthService {
     const passwordMatch = await bcrypt.compare(password, user.password)
     if (!passwordMatch) throw new BadRequestException("Invalid credentials")
 
-    const tokens = await this.generateTokens(user.id)
+    const tokens = await this.generateTokens(user.uid)
     return { user: formatUser(user), tokens }
   }
 
@@ -68,12 +69,12 @@ export class AuthService {
     if (!refreshToken) throw new BadRequestException("Invalid token")
 
     await this.prisma.refreshToken.delete({ where: { id: refreshToken.id } })
-    const tokens = await this.generateTokens(refreshToken.userId)
+    const tokens = await this.generateTokens(refreshToken.userUid)
     return tokens
   }
 
   async registerUser(data: RegisterType): Promise<AuthResponseType> {
-    const user = await lastValueFrom(
+    const user: UserReadType = await lastValueFrom(
       this.userClient.send("user.create", { ...data, role: "USER" }).pipe(
         catchError(() => {
           throw new BadRequestException("User already exists")
@@ -81,7 +82,7 @@ export class AuthService {
       ),
     )
     // const user = await this.userService.create({ ...data, role: "USER" })
-    const tokens = await this.generateTokens(user.id)
+    const tokens = await this.generateTokens(user.uid)
 
     return { user, tokens }
   }

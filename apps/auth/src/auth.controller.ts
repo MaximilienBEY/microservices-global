@@ -1,6 +1,6 @@
 import { Public, User } from "@app/common/auth/user.decorator"
 import { authResponseSchema, tokensSchema } from "@app/common/schemas/auth/schema"
-import { UserType } from "@app/common/schemas/user/types"
+import { UserReadType, UserType } from "@app/common/schemas/user/types"
 import { Body, Controller, Get, Inject, Patch, Post, UnauthorizedException } from "@nestjs/common"
 import { ClientProxy, EventPattern, RpcException } from "@nestjs/microservices"
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger"
@@ -53,16 +53,17 @@ export class AuthController {
 
   @Patch("me")
   async updateMe(@User() user: UserType, @Body() body: UpdateMeDto) {
-    return this.authService.updateUser(user.id, body)
+    return this.authService.updateUser(user.uid, body)
   }
 
   @EventPattern("auth.decode")
-  async decodeToken(data: { token: string }) {
-    const userId =
-      (await this.authService.decodeToken(data.token).then(token => token?.sub)) ?? "test"
+  async decodeToken({ token }: { token: string }) {
+    const userId: string | undefined = await this.authService
+      .decodeToken(token)
+      .then(token => token?.sub)
     if (!userId) throw new RpcException(new UnauthorizedException())
 
-    const user = await lastValueFrom(
+    const user: UserReadType = await lastValueFrom(
       this.userClient.send("user.find.id", { id: userId }).pipe(
         catchError(() => {
           throw new RpcException(new UnauthorizedException())

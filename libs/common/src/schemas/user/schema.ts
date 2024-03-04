@@ -1,13 +1,14 @@
 import { z } from "nestjs-zod/z"
 
 export const userSchema = z.object({
-  id: z.string(),
+  uid: z.string(),
   email: z.string().email(),
   name: z.string(),
   role: z.string().default("USER"),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 })
+export const userReadSchema = userSchema.extend({ password: z.string() })
 export const usersSchema = z.array(userSchema)
 
 // User Create

@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivate {
     // const user = await this.userService.findOne(userId).catch(() => null)
     // if (!user) throw new UnauthorizedException()
 
-    const user = await lastValueFrom(
+    const user: UserType = await lastValueFrom(
       this.authClient
         .send("auth.decode", { token: jwtToken })
         .pipe(catchError(() => throwError(() => new UnauthorizedException()))),

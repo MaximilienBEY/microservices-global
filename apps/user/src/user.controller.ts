@@ -1,4 +1,5 @@
 import { RmqService } from "@app/common/rmq/rmq.service"
+import { UserMeUpdateType } from "@app/common/schemas/auth/types"
 import { successResponseSchema } from "@app/common/schemas/basic/schema"
 import { userSchema, usersSchema } from "@app/common/schemas/user/schema"
 import {
@@ -21,7 +22,7 @@ import { UpdateUserDto } from "./dto/update-user.dto"
 import { UserService } from "./user.service"
 
 @ApiTags("Users")
-@Controller("user")
+@Controller("users")
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -82,6 +83,12 @@ export class UserController {
     const user = await this.userService.create(data).catch(() => {
       throw new RpcException(new BadRequestException("Email already used"))
     })
+    return user
+  }
+
+  @EventPattern("user.update")
+  async updateUser(@Payload() { id, data }: { id: string; data: UserMeUpdateType }) {
+    const user = await this.userService.update(id, data)
     return user
   }
 }

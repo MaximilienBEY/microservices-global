@@ -18,7 +18,6 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/movie-app/test/jest-e2e.json",
-
     "dev": "docker compose up",
     "dev:first": "docker compose up --build -V",
     "prod": "docker compose -f docker-compose.prod.yml up --build -V"
@@ -30,6 +29,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/microservices": "^10.3.1",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/serve-static": "^4.0.1",
     "@nestjs/swagger": "^7.2.0",
     "@nestjs/throttler": "^5.1.1",
     "@prisma/client": "^5.9.1",
@@ -40,6 +40,7 @@
     "nestjs-zod": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "xml2js": "^0.6.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -49,8 +50,10 @@
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.3.1",
     "@types/supertest": "^2.0.12",
+    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.42.0",
