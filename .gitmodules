@@ -4,3 +4,6 @@
 [submodule "apps/auth"]
 	path = apps/auth
 	url = git@github.com:MaximilienBEY/microservices-auth.git
+[submodule "apps/user"]
+	path = apps/user
+	url = git@github.com:MaximilienBEY/microservices-user.git
