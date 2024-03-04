@@ -18,7 +18,6 @@ import { AuthService } from "./auth.service"
       isGlobal: true,
       validationSchema: joi.object({
         DATABASE_URL: joi.string().required(),
-        AUTH_PORT: joi.number().required(),
         JWT_SECRET: joi.string().required(),
 
         RABBIT_MQ_URL: joi.string().required(),

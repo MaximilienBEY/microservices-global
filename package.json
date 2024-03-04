@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./apps/movie-app/test/jest-e2e.json",
 
     "dev": "docker compose up",
-    "dev:first": "docker compose up --build -V"
+    "dev:first": "docker compose up --build -V",
+    "prod": "docker compose -f docker-compose.prod.yml up --build -V"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

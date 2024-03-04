@@ -15,7 +15,7 @@ import { RegisterDto } from "./dto/register.dto"
 import { UpdateMeDto } from "./dto/update-me.dto"
 
 @ApiTags("Auth")
-@Controller()
+@Controller("auth")
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

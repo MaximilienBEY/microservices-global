@@ -16,7 +16,6 @@ import { UserService } from "./user.service"
       isGlobal: true,
       validationSchema: joi.object({
         DATABASE_URL: joi.string().required(),
-        USER_PORT: joi.number().required(),
 
         RABBIT_MQ_URL: joi.string().required(),
         RABBIT_MQ_USER_QUEUE: joi.string().required(),

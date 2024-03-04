@@ -15,7 +15,6 @@ import { MovieService } from "./movie.service"
       isGlobal: true,
       validationSchema: joi.object({
         DATABASE_URL: joi.string().required(),
-        MOVIE_PORT: joi.number().required(),
       }),
       envFilePath: "./apps/movie/.env",
     }),

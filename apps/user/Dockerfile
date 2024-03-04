@@ -14,10 +14,11 @@ RUN npx prisma generate
 COPY . .
 RUN npm rebuild bcrypt --build-from-source
 
-RUN npm run build
+RUN npm run build user
 
 FROM node:18-alpine as production
 
+RUN apk add python3 make g++
 RUN npx prisma generate
 
 ARG NODE_ENV=production
@@ -33,5 +34,4 @@ COPY . .
 RUN npm rebuild bcrypt --build-from-source
 
 COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/apps/user/main"]
+CMD ["node", "dist/apps/user/main.js"]

@@ -1,4 +1,5 @@
 FROM node:18-alpine as development
+RUN apk add python3 make g++
 
 WORKDIR /usr/src/app
 
@@ -11,11 +12,13 @@ RUN npm install
 RUN npx prisma generate
 
 COPY . .
+RUN npm rebuild bcrypt --build-from-source
 
-RUN npm run build
+RUN npm run build movie
 
 FROM node:18-alpine as production
 
+RUN apk add python3 make g++
 RUN npx prisma generate
 
 ARG NODE_ENV=production
@@ -28,7 +31,7 @@ COPY package*.json prisma ./
 RUN npm install --only=production
 
 COPY . .
+RUN npm rebuild bcrypt --build-from-source
 
 COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/apps/movie/main"]
+CMD ["node", "dist/apps/movie/main.js"]
