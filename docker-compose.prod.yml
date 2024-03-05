@@ -1,14 +1,5 @@
 version: '3.3'
 services:
-  movie:
-    build:
-      context: .
-      dockerfile: ./apps/movie/Dockerfile
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - rabbitmq
   auth:
     build:
       context: .
@@ -27,7 +18,34 @@ services:
     depends_on:
       - db
       - rabbitmq
-  
+  reservation:
+    build:
+      context: .
+      dockerfile: ./apps/reservation/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - rabbitmq
+  movie:
+    build:
+      context: .
+      dockerfile: ./apps/movie/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - rabbitmq
+  cinema:
+    build:
+      context: .
+      dockerfile: ./apps/cinema/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - rabbitmq
+
   rabbitmq:
     image: rabbitmq
     restart: always
@@ -42,9 +60,10 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
-      - movie
       - user
       - auth
+      - movie
+      - cinema
   db:
     image: postgres:latest
     restart: always

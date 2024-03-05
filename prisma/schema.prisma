@@ -10,44 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Poster {
-  uid       String   @id @default(uuid())
-  url       String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  movieUid String @unique
-  movie    Movie  @relation(fields: [movieUid], references: [uid])
-
-  @@map("posters")
-}
-
-model Category {
-  uid       String   @id @default(uuid())
-  name      String   @unique
-  movies    Movie[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("categories")
-}
-
-model Movie {
-  uid                     String   @id @default(uuid())
-  name                    String
-  description             String
-  rate                    Int
-  duration                Int
-  hasReservationAvailable Boolean  @default(false)
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
-
-  poster     Poster?
-  categories Category[]
-
-  @@map("movies")
-}
-
 model User {
   uid       String   @id @default(uuid())
   name      String
@@ -58,6 +20,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   refresh_tokens RefreshToken[]
+  reservations   Reservation[]
 
   @@map("users")
 }
@@ -74,4 +37,106 @@ model RefreshToken {
   userUid String
 
   @@map("refresh_tokens")
+}
+
+model Category {
+  uid       String   @id @default(uuid())
+  name      String   @unique
+  movies    Movie[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Poster {
+  uid       String   @id @default(uuid())
+  url       String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  movieUid String @unique
+  movie    Movie  @relation(fields: [movieUid], references: [uid])
+
+  @@map("posters")
+}
+
+model Movie {
+  uid                     String   @id @default(uuid())
+  name                    String
+  description             String
+  rate                    Int
+  duration                Int
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  poster     Poster?
+  categories Category[]
+  sceances   Sceance[]
+
+  @@map("movies")
+}
+
+model Cinema {
+  uid       String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rooms Room[]
+
+  @@map("cinemas")
+}
+
+model Room {
+  uid       String   @id @default(uuid())
+  name      String
+  seats     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cinemaUid String
+  cinema    Cinema @relation(fields: [cinemaUid], references: [uid])
+
+  sceances Sceance[]
+
+  @@map("rooms")
+}
+
+model Sceance {
+  uid       String   @id @default(uuid())
+  date      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roomUid String
+  room    Room   @relation(fields: [roomUid], references: [uid])
+
+  movieUid String
+  movie    Movie  @relation(fields: [movieUid], references: [uid])
+
+  reservations Reservation[]
+
+  @@map("sceances")
+}
+
+enum ReservationStatus {
+  OPEN
+  EXPIRED
+  CONFIRMED
+}
+
+model Reservation {
+  uid       String            @id @default(uuid())
+  status    ReservationStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  userUid String
+  user    User   @relation(fields: [userUid], references: [uid])
+
+  sceanceUid String
+  sceance    Sceance @relation(fields: [sceanceUid], references: [uid])
+
+  @@map("reservations")
 }

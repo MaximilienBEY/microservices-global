@@ -2,8 +2,8 @@ import { z } from "nestjs-zod/z"
 
 export const movieSchema = z.object({
   uid: z.string(),
-  name: z.string(),
-  description: z.string(),
+  name: z.string().max(128),
+  description: z.string().max(4096),
   rate: z.coerce.number().int().min(0).max(5),
   duration: z.coerce.number().int().min(0).max(240),
   hasReservationAvailable: z.boolean(),
@@ -17,17 +17,18 @@ export const movieListQuerySchema = z.object({
   page: z.coerce.number().min(1).default(1),
   query: z.string().optional(),
 })
-export const movieListResponseSchema = z.object({
-  _links: z.object({
-    self: z.string(),
-    next: z.string().optional(),
-    prev: z.string().optional(),
-  }),
-  items: z.array(movieSchema),
-  limit: z.number(),
-  page: z.number(),
-  total: z.number(),
-})
+export const movieListResponseSchema = z.array(movieSchema)
+// export const movieListResponseSchema = z.object({
+//   _links: z.object({
+//     self: z.string(),
+//     next: z.string().optional(),
+//     prev: z.string().optional(),
+//   }),
+//   items: z.array(movieSchema),
+//   limit: z.number(),
+//   page: z.number(),
+//   total: z.number(),
+// })
 
 // Create movie request
 export const movieCreateSchema = movieSchema
@@ -38,7 +39,6 @@ export const movieCreateSchema = movieSchema
     hasReservationAvailable: true,
   })
   .extend({
-    hasReservationAvailable: z.boolean().optional(),
     categories: z.array(z.string()),
     poster: z.any().optional(),
   })

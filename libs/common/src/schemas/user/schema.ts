@@ -3,7 +3,7 @@ import { z } from "nestjs-zod/z"
 export const userSchema = z.object({
   uid: z.string(),
   email: z.string().email(),
-  name: z.string(),
+  name: z.string().max(128),
   role: z.string().default("USER"),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),

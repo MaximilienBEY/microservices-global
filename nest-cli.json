@@ -19,6 +19,15 @@
         "tsConfigPath": "apps/movie/tsconfig.app.json"
       }
     },
+    "cinema": {
+      "type": "application",
+      "root": "apps/cinema",
+      "entryFile": "main",
+      "sourceRoot": "apps/cinema/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/cinema/tsconfig.app.json"
+      }
+    },
     "user": {
       "type": "application",
       "root": "apps/user",
@@ -26,6 +35,15 @@
       "sourceRoot": "apps/user/src",
       "compilerOptions": {
         "tsConfigPath": "apps/user/tsconfig.app.json"
+      }
+    },
+    "reservation": {
+      "type": "application",
+      "root": "apps/reservation",
+      "entryFile": "main",
+      "sourceRoot": "apps/reservation/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/reservation/tsconfig.app.json"
       }
     },
     "common": {
