@@ -7,3 +7,9 @@
 [submodule "apps/user"]
 	path = apps/user
 	url = git@github.com:MaximilienBEY/microservices-user.git
+[submodule "apps/cinema"]
+	path = apps/cinema
+	url = git@github.com:MaximilienBEY/microservices-cinema.git
+[submodule "apps/reservation"]
+	path = apps/reservation
+	url = git@github.com:MaximilienBEY/microservices-reservation.git
