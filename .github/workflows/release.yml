@@ -7,7 +7,6 @@ on:
         description: 'Release version'
         required: true
         type: string
-        default: ${{ github.event.inputs.version }}
     secrets:
       token:
         description: 'GitHub token'

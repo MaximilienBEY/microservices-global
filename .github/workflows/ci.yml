@@ -29,14 +29,11 @@ jobs:
         run: pnpm run lint:ci
       - name: Test
         run: pnpm run test
-      - name: Get last version
-        id: get_last_version
-        run: echo ::set-output name=version::$(git describe --tags --abbrev=0)
   call_release_workflow:
     needs: build
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     uses: ./.github/workflows/release.yml
     with:
-      version: ${{ needs.build.outputs.get_last_version }}
+      version: v1.0.0
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }} 
