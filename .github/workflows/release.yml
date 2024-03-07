@@ -12,12 +12,12 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate changelog
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v2
-        with:
-          configuration: .github/changelog_configuration.json
-          token: ${{ secrets.TOKEN }}
+      # - name: Generate changelog
+      #   id: changelog
+      #   uses: mikepenz/release-changelog-builder-action@v2
+      #   with:
+      #     configuration: .github/changelog_configuration.json
+      #     token: ${{ secrets.TOKEN }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -26,6 +26,6 @@ jobs:
         with:
           tag_name: ${{ inputs.version }}
           release_name: Release ${{ inputs.version }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          # body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
