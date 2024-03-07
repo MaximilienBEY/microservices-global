@@ -61,6 +61,7 @@ jobs:
 
   call_release_workflow:
     needs: build
+    permissions: write-all
     if: ${{ needs.build.outputs.version_changed == 'true' }}
     uses: ./.github/workflows/release.yml
     with: 
