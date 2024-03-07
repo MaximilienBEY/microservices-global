@@ -10,6 +10,7 @@ on:
 
 jobs:
   release:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       # - name: Generate changelog
@@ -22,7 +23,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ inputs.version }}
           release_name: Release ${{ inputs.version }}
