@@ -15,6 +15,7 @@ jobs:
         with:
           submodules: true
           token: ${{ secrets.token }}
+          fetch-depth: 2
       - name: Use node 18
         uses: actions/setup-node@v4
         with:
@@ -40,12 +41,13 @@ jobs:
             echo "First commit or no previous version to compare."
             VERSION_OLD=""
           fi
-
+          
           VERSION_NEW=$(jq -r .version package.json)
-
+          
           if [[ "$VERSION_OLD" != "$VERSION_NEW" ]]; then
+            echo "New version detected: $VERSION_NEW"
             echo "VERSION_CHANGED=true" >> $GITHUB_ENV
-            echo "::set-output name=version::$VERSION_NEW"
+            echo "version=$VERSION_NEW" >> $GITHUB_ENV
           else
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
