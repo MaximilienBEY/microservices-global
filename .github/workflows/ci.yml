@@ -37,16 +37,33 @@ jobs:
           if git rev-parse HEAD^ >/dev/null 2>&1; then
             VERSION_OLD=$(git show HEAD^:./package.json | jq -r .version)
           else
-            echo "No previous commit to compare to."
-            VERSION_OLD="none"
+            echo "First commit or no previous version to compare."
+            VERSION_OLD=""
           fi
+
           VERSION_NEW=$(jq -r .version package.json)
-          if [ "$VERSION_OLD" != "$VERSION_NEW" ]; then
+
+          if [[ "$VERSION_OLD" != "$VERSION_NEW" ]]; then
             echo "VERSION_CHANGED=true" >> $GITHUB_ENV
             echo "::set-output name=version::$VERSION_NEW"
           else
             echo "VERSION_CHANGED=false" >> $GITHUB_ENV
           fi
+        # run: |
+        #   git fetch --depth=2
+        #   if git rev-parse HEAD^ >/dev/null 2>&1; then
+        #     VERSION_OLD=$(git show HEAD^:./package.json | jq -r .version)
+        #   else
+        #     echo "No previous commit to compare to."
+        #     VERSION_OLD="none"
+        #   fi
+        #   VERSION_NEW=$(jq -r .version package.json)
+        #   if [ "$VERSION_OLD" != "$VERSION_NEW" ]; then
+        #     echo "VERSION_CHANGED=true" >> $GITHUB_ENV
+        #     echo "::set-output name=version::$VERSION_NEW"
+        #   else
+        #     echo "VERSION_CHANGED=false" >> $GITHUB_ENV
+        #   fi
         shell: bash
     outputs:
       version_changed: ${{ steps.version_check.outputs.version_changed }}
