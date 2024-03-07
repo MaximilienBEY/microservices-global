@@ -17,12 +17,12 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v2
         with:
           configuration: .github/changelog_configuration.json
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.token }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.token }}
         with:
           tag_name: ${{ inputs.version }}
           release_name: Release ${{ inputs.version }}
