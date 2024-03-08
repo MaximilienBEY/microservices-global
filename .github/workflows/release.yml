@@ -7,17 +7,18 @@ on:
         description: 'Release version'
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        type: string
 
 jobs:
   release:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      # - name: Generate changelog
-      #   id: changelog
-      #   uses: mikepenz/release-changelog-builder-action@v2
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -26,6 +27,8 @@ jobs:
         with:
           tag_name: ${{ inputs.version }}
           release_name: Release ${{ inputs.version }}
-          # body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
+          body: |
+            This is a release for version ${{ inputs.version }}, which is automatically created by the release workflow.
+            Release it to deploy the new version to the production environment.
+          draft: true
           prerelease: false

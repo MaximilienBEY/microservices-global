@@ -1,0 +1,14 @@
+name: Release Workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  on-release-published:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy on Google Cloud using Helm
+        run: echo "[TODO] Deploying on Google Cloud using Helm"
