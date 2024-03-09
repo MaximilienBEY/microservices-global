@@ -24,21 +24,21 @@ spec:
                 name: cinema
                 port:
                   number: 3000
-          - path: /movie
+          - path: /movies
             pathType: Prefix
             backend:
               service:
                 name: movie
                 port:
                   number: 3000
-          - path: /reservation
+          - path: /reservations
             pathType: Prefix
             backend:
               service:
                 name: reservation
                 port:
                   number: 3000
-          - path: /user
+          - path: /users
             pathType: Prefix
             backend:
               service:

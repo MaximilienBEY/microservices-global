@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: movie
-          image: maximilienbey/movie-app_movie:v0.0.2
+          image: maximilienbey/movie-app_movie:v0.0.3
           ports:
             - containerPort: 3000
           env:
