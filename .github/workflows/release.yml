@@ -21,7 +21,7 @@ jobs:
     strategy:
       matrix:
         includes:
-          - image: auth
+          - module: auth
           - module: cinema
           - module: movie
           - module: reservation
