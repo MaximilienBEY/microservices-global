@@ -15,7 +15,7 @@ on:
         type: string
 
 jobs:
-  release:
+  build:
     permissions: write-all
     runs-on: ubuntu-latest
     strategy:
@@ -43,6 +43,11 @@ jobs:
           echo "Building and releasing ${{ matrix.module }} container"
           docker build --platform=linux/amd64 . -f apps/${{ matrix.module }}/Dockerfile --no-cache -t maximilienbey/movie-app_${{ matrix.module }}:v${{ inputs.version }}
           docker push maximilienbey/movie-app_${{ matrix.module }}:v${{ inputs.version }}
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config"
 import { APP_PIPE } from "@nestjs/core"
+import { TerminusModule } from "@nestjs/terminus"
 import * as joi from "joi"
 import { ZodValidationPipe } from "nestjs-zod"
 
@@ -23,8 +24,9 @@ const isCI = process.env.CI === "true"
     PrismaModule,
     AppAuthModule,
     AppThrottlerModule,
+    TerminusModule,
   ],
   providers: [{ provide: APP_PIPE, useClass: ZodValidationPipe }],
-  exports: [PrismaModule],
+  exports: [PrismaModule, TerminusModule],
 })
 export class CommonModule {}
