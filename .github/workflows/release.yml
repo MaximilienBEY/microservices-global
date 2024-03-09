@@ -7,6 +7,13 @@ on:
         description: 'Release version'
         required: true
         type: string
+    secrets:
+      TOKEN:
+        required: true
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
   workflow_dispatch:
     inputs:
       version:
@@ -57,7 +64,6 @@ jobs:
           tag_name: ${{ inputs.version }}
           release_name: Release ${{ inputs.version }}
           body: |
-            This is a release for version ${{ inputs.version }}, which is automatically created by the release workflow.
-            Release it to deploy the new version to the production environment.
+            Publish the draft of the release v${{ inputs.version }} to update Kubernetes Engine
           draft: true
           prerelease: false
