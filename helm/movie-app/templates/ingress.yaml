@@ -1,47 +1,49 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: movie-app-ingress
+  name: ingress
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
+    kubernetes.io/ingress.global-static-ip-name: static-ip
+    # networking.gke.io/managed-certificates: example-certificate
 spec:
-  ingressClassName: alb
   rules:
-    - http:
+    - host: "movie-app.maximilien-bey.com"
+      http:
         paths:
-          - path: /auth
-            pathType: Prefix
+          # - path: /auth
+          #   pathType: Prefix
+          - path: /*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: auth
                 port:
                   number: 3000
-          - path: /cinema
-            pathType: Prefix
-            backend:
-              service:
-                name: cinema
-                port:
-                  number: 3000
-          - path: /movies
-            pathType: Prefix
-            backend:
-              service:
-                name: movie
-                port:
-                  number: 3000
-          - path: /reservations
-            pathType: Prefix
-            backend:
-              service:
-                name: reservation
-                port:
-                  number: 3000
-          - path: /users
-            pathType: Prefix
-            backend:
-              service:
-                name: user
-                port:
-                  number: 3000
+          # - path: /cinema
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: cinema
+          #       port:
+          #         number: 3000
+          # - path: /movies
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: movie
+          #       port:
+          #         number: 3000
+          # - path: /reservations
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: reservation
+          #       port:
+          #         number: 3000
+          # - path: /users
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: user
+          #       port:
+          #         number: 3000

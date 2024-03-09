@@ -14,9 +14,21 @@ spec:
     spec:
       containers:
         - name: auth
-          image: maximilienbey/movie-app_auth:v0.0.3
+          image: maximilienbey/movie-app_auth:v0.0.4
           ports:
             - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /auth/health
+              port: 3000
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /auth/health
+              port: 3000
+            initialDelaySeconds: 5
+            timeoutSeconds: 2
           env:
             - name: JWT_SECRET
               value: "mysecret"
