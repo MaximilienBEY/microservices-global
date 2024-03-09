@@ -20,12 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        includes:
-          - module: auth
-          - module: cinema
-          - module: movie
-          - module: reservation
-          - module: user
+        module:
+          - auth
+          - cinema
+          - movie
+          - reservation
+          - user
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
