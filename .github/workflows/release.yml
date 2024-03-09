@@ -34,36 +34,28 @@ jobs:
       - name: Build and Release auth container
         run: |
           echo "Building and releasing auth container"
-          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_auth:v${{ inputs.version }}
+          docker build --platform=linux/amd64 . -f apps/auth/Dockerfile --no-cache -t maximilienbey/movie-app_auth:v${{ inputs.version }}
           docker push maximilienbey/movie-app_auth:v${{ inputs.version }}
       - name: Build and Release cinema container
         run: |
           echo "Building and releasing cinema container"
-          cd apps/cinema
-          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_cinema:v${{ inputs.version }}
+          docker build --platform=linux/amd64 . -f apps/cinema/Dockerfile --no-cache -t maximilienbey/movie-app_cinema:v${{ inputs.version }}
           docker push maximilienbey/movie-app_cinema:v${{ inputs.version }}
-          cd ../..
       - name: Build and Release movie container
         run: |
           echo "Building and releasing movie container"
-          cd apps/movie
-          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_movie:v${{ inputs.version }}
+          docker build --platform=linux/amd64 . -f apps/movie/Dockerfile --no-cache -t maximilienbey/movie-app_movie:v${{ inputs.version }}
           docker push maximilienbey/movie-app_movie:v${{ inputs.version }}
-          cd ../..
       - name: Build and Release reservation container
         run: |
           echo "Building and releasing reservation container"
-          cd apps/reservation
-          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_reservation:v${{ inputs.version }}
+          docker build --platform=linux/amd64 . -f apps/reservation/Dockerfile --no-cache -t maximilienbey/movie-app_reservation:v${{ inputs.version }}
           docker push maximilienbey/movie-app_reservation:v${{ inputs.version }}
-          cd ../..
       - name: Build and Release user container
         run: |
           echo "Building and releasing user container"
-          cd apps/user
-          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_user:v${{ inputs.version }}
+          docker build --platform=linux/amd64 . -f apps/user/Dockerfile --no-cache -t maximilienbey/movie-app_user:v${{ inputs.version }}
           docker push maximilienbey/movie-app_user:v${{ inputs.version }}
-          cd ../..
 
       - name: Create Release
         id: create_release
