@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: movie-app-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth
+                port:
+                  number: 3000
+          - path: /cinema
+            pathType: Prefix
+            backend:
+              service:
+                name: cinema
+                port:
+                  number: 3000
+          - path: /movie
+            pathType: Prefix
+            backend:
+              service:
+                name: movie
+                port:
+                  number: 3000
+          - path: /reservation
+            pathType: Prefix
+            backend:
+              service:
+                name: reservation
+                port:
+                  number: 3000
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user
+                port:
+                  number: 3000

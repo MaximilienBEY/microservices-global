@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservation
+  template:
+    metadata:
+      labels:
+        app: reservation
+    spec:
+      containers:
+        - name: reservation
+          image: maximilienbey/movie-app_reservation:v0.0.2
+          ports:
+            - containerPort: 3000
+          env:
+            - name: JWT_SECRET
+              value: "mysecret"
+            - name: DATABASE_URL
+              value: "postgresql://movie:movie@movie-app-postgresql:5432/movie?schema=public"
+            - name : RABBIT_MQ_URL
+              value: "amqp://movie:movie@movie-app-rabbitmq:5672"

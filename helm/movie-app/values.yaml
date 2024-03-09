@@ -1,0 +1,9 @@
+postgresql:
+  auth:
+    username: movie
+    password: movie
+    database: movie
+rabbitmq:
+  auth:
+    username: movie
+    password: movie

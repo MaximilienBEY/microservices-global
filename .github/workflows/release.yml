@@ -19,6 +19,44 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.TOKEN }}
+          fetch-depth: 2 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      # Container build and release
+      - name: Build and Release auth container
+        run: |
+          echo "Building and releasing auth container"
+          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_auth:v${{ inputs.version }}
+          docker push maximilienbey/movie-app_auth:v${{ inputs.version }}
+      - name: Build and Release cinema container
+        run: |
+          echo "Building and releasing cinema container"
+          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_cinema:v${{ inputs.version }}
+          docker push maximilienbey/movie-app_cinema:v${{ inputs.version }}
+      - name: Build and Release movie container
+        run: |
+          echo "Building and releasing movie container"
+          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_movie:v${{ inputs.version }}
+          docker push maximilienbey/movie-app_movie:v${{ inputs.version }}
+      - name: Build and Release reservation container
+        run: |
+          echo "Building and releasing reservation container"
+          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_reservation:v${{ inputs.version }}
+          docker push maximilienbey/movie-app_reservation:v${{ inputs.version }}
+      - name: Build and Release user container
+        run: |
+          echo "Building and releasing user container"
+          docker build --platform=linux/amd64 ../.. -f Dockerfile --no-cache -t maximilienbey/movie-app_user:v${{ inputs.version }}
+          docker push maximilienbey/movie-app_user:v${{ inputs.version }}
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
