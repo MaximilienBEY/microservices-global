@@ -18,6 +18,14 @@ jobs:
   release:
     permissions: write-all
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        includes:
+          - image: auth:v${{ inputs.version }}
+          - module: cinema:v${{ inputs.version }}
+          - module: movie:v${{ inputs.version }}
+          - module: reservation:v${{ inputs.version }}
+          - module: user:v${{ inputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,33 +38,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      # Container build and release
-      - name: Build and Release auth container
+      - name: Build and push Docker image
         run: |
-          echo "Building and releasing auth container"
-          docker build --platform=linux/amd64 . -f apps/auth/Dockerfile --no-cache -t maximilienbey/movie-app_auth:v${{ inputs.version }}
-          docker push maximilienbey/movie-app_auth:v${{ inputs.version }}
-      - name: Build and Release cinema container
-        run: |
-          echo "Building and releasing cinema container"
-          docker build --platform=linux/amd64 . -f apps/cinema/Dockerfile --no-cache -t maximilienbey/movie-app_cinema:v${{ inputs.version }}
-          docker push maximilienbey/movie-app_cinema:v${{ inputs.version }}
-      - name: Build and Release movie container
-        run: |
-          echo "Building and releasing movie container"
-          docker build --platform=linux/amd64 . -f apps/movie/Dockerfile --no-cache -t maximilienbey/movie-app_movie:v${{ inputs.version }}
-          docker push maximilienbey/movie-app_movie:v${{ inputs.version }}
-      - name: Build and Release reservation container
-        run: |
-          echo "Building and releasing reservation container"
-          docker build --platform=linux/amd64 . -f apps/reservation/Dockerfile --no-cache -t maximilienbey/movie-app_reservation:v${{ inputs.version }}
-          docker push maximilienbey/movie-app_reservation:v${{ inputs.version }}
-      - name: Build and Release user container
-        run: |
-          echo "Building and releasing user container"
-          docker build --platform=linux/amd64 . -f apps/user/Dockerfile --no-cache -t maximilienbey/movie-app_user:v${{ inputs.version }}
-          docker push maximilienbey/movie-app_user:v${{ inputs.version }}
-
+          echo "Building and releasing ${{ matrix.module }} container"
+          docker build --platform=linux/amd64 . -f apps/${{ matrix.module }}/Dockerfile --no-cache -t maximilienbey/movie-app_${{ matrix.module }}
+          docker push maximilienbey/movie-app_${{ matrix.module }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
