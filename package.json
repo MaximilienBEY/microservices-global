@@ -1,6 +1,6 @@
 {
   "name": "movie-app",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "author": "",
   "private": true,
@@ -20,7 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/movie-app/test/jest-e2e.json",
     "dev": "docker compose up",
-    "dev:first": "docker compose up --build -V",
+    "dev:reset": "docker compose up --build -V",
     "prod": "docker compose -f docker-compose.prod.yml up --build -V"
   },
   "dependencies": {
