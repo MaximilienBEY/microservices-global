@@ -64,5 +64,9 @@ jobs:
     permissions: write-all
     if: ${{ needs.build.outputs.version_changed == 'true' && github.event_name == 'push' }}
     uses: ./.github/workflows/release.yml
+    secrets:
+      TOKEN: ${{ secrets.TOKEN }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     with: 
       version: ${{ needs.build.outputs.version }}
