@@ -21,11 +21,11 @@ jobs:
     strategy:
       matrix:
         includes:
-          - image: auth:v${{ inputs.version }}
-          - module: cinema:v${{ inputs.version }}
-          - module: movie:v${{ inputs.version }}
-          - module: reservation:v${{ inputs.version }}
-          - module: user:v${{ inputs.version }}
+          - image: auth
+          - module: cinema
+          - module: movie
+          - module: reservation
+          - module: user
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,8 +41,8 @@ jobs:
       - name: Build and push Docker image
         run: |
           echo "Building and releasing ${{ matrix.module }} container"
-          docker build --platform=linux/amd64 . -f apps/${{ matrix.module }}/Dockerfile --no-cache -t maximilienbey/movie-app_${{ matrix.module }}
-          docker push maximilienbey/movie-app_${{ matrix.module }}
+          docker build --platform=linux/amd64 . -f apps/${{ matrix.module }}/Dockerfile --no-cache -t maximilienbey/movie-app_${{ matrix.module }}:v${{ inputs.version }}
+          docker push maximilienbey/movie-app_${{ matrix.module }}:v${{ inputs.version }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
