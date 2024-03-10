@@ -20,6 +20,9 @@ jobs:
           project_id: movie-app-416714
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
+      - name: Install gcloud plugins
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
       - name: Connect to GKE
         run: |
           gcloud container clusters get-credentials movie-app --zone europe-west2-b --project movie-app-416714
