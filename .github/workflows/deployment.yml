@@ -2,7 +2,7 @@ name: Release Workflow
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   on-release-published:
