@@ -31,4 +31,4 @@ jobs:
           find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/${{ steps.get_version.outputs.VERSION }}/g' {} \;
       - name: Helm upgrade
         run: |
-          helm upgrade movie-app helm/movie-app
+          helm upgrade --install movie-app helm/movie-app
