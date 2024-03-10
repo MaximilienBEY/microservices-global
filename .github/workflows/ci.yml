@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on:
   push:
@@ -63,7 +63,7 @@ jobs:
     needs: build
     permissions: write-all
     if: ${{ needs.build.outputs.version_changed == 'true' && github.event_name == 'push' }}
-    uses: ./.github/workflows/release.yml
+    uses: ./.github/workflows/delivery.yml
     secrets:
       TOKEN: ${{ secrets.TOKEN }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
