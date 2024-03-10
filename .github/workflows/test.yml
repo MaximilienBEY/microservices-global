@@ -23,11 +23,19 @@ jobs:
       - name: Connect to GKE
         run: |
           gcloud container clusters get-credentials movie-app --zone europe-west2-b --project ${{ secrets.GCP_PROJECT_ID }}
+      - name: Get current kubectl context
+        run: |
+          kubectl config current-context
       - name: Replace version in Helm templates
         run: |
           find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/0.0.3/g' {} \;
-      - name: List Helm releases
-        run: helm list --namespace default
+      - name: Helm version and debug
+        run: |
+          helm version
+          helm ls --all-namespaces --debug
+      - name: Update Helm dependencies
+        run: |
+          helm dependency update helm/movie-app
       - name: Helm upgrade
         run: |
           helm upgrade --install --cleanup-on-fail --namespace default movie-app helm/movie-app
