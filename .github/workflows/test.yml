@@ -17,28 +17,18 @@ jobs:
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
-          project_id: movie-app-416714
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-      - name: Install gcloud plugins
+      - name: Install Google Cloud plugins
         run: |
           gcloud components install gke-gcloud-auth-plugin
       - name: Connect to GKE
         run: |
-          gcloud container clusters get-credentials movie-app --zone europe-west2-b --project movie-app-416714
-      - name: List kubectl contexts
-        run: kubectl config get-contexts
-      - name: Get current kubectl context
-        run: kubectl config current-context
-      - name: Debug Helm and Kubernetes configuration
-        run: |
-          helm version
-          kubectl config get-contexts
-          kubectl config current-context
-          helm ls --all-namespaces --debug
+          gcloud container clusters get-credentials movie-app --zone europe-west2-b --project ${{ secrets.GCP_PROJECT_ID }}
       - name: Replace version in Helm templates
         run: |
           find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/0.0.3/g' {} \;
       - name: Helm upgrade
         run: |
-          helm upgrade --install --namespace default movie-app helm/movie-app --debug
+          helm upgrade --install --namespace default movie-app helm/movie-app
