@@ -25,7 +25,7 @@ jobs:
           export_default_credentials: true
       - name: Connect to GKE
         run: |
-          gcloud container clusters get-credentials cluster-name --zone europe-west2-b --project ${{ secrets.GCP_PROJECT_ID }}
+          gcloud container clusters get-credentials movie-app --zone europe-west2-b --project ${{ secrets.GCP_PROJECT_ID }}
       - name: Replace version in Helm templates
         run: |
           find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/${{ steps.get_version.outputs.VERSION }}/g' {} \;
