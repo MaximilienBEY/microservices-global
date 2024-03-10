@@ -27,13 +27,15 @@ jobs:
         run: kubectl config get-contexts
       - name: Get current kubectl context
         run: kubectl config current-context
+      - name: Debug Helm and Kubernetes configuration
+        run: |
+          helm version
+          kubectl config get-contexts
+          kubectl config current-context
+          helm ls --all-namespaces --debug
       - name: Replace version in Helm templates
         run: |
           find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/0.0.3/g' {} \;
-      - name: Helm version and debug
-        run: |
-          helm version
-          helm ls --all-namespaces --debug
       - name: Helm upgrade
         run: |
           helm upgrade --install --namespace default movie-app helm/movie-app --debug
