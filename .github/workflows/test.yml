@@ -23,9 +23,10 @@ jobs:
       - name: Connect to GKE
         run: |
           gcloud container clusters get-credentials movie-app --zone europe-west2-b --project ${{ secrets.GCP_PROJECT_ID }}
+      - name: List kubectl contexts
+        run: kubectl config get-contexts
       - name: Get current kubectl context
-        run: |
-          kubectl config current-context
+        run: kubectl config current-context
       - name: Replace version in Helm templates
         run: |
           find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/0.0.3/g' {} \;
