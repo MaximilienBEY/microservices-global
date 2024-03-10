@@ -35,4 +35,4 @@ jobs:
           helm ls --all-namespaces --debug
       - name: Helm upgrade
         run: |
-          helm upgrade --install --cleanup-on-fail --namespace default movie-app helm/movie-app --debug
+          helm upgrade --install --namespace default movie-app helm/movie-app --debug
