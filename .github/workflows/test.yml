@@ -33,9 +33,6 @@ jobs:
         run: |
           helm version
           helm ls --all-namespaces --debug
-      - name: Update Helm dependencies
-        run: |
-          helm dependency update helm/movie-app
       - name: Helm upgrade
         run: |
-          helm upgrade --install --cleanup-on-fail --namespace default movie-app helm/movie-app
+          helm upgrade --install --cleanup-on-fail --namespace default movie-app helm/movie-app --debug
