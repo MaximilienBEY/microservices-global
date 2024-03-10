@@ -13,5 +13,22 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-      - name: Deploy on Google Cloud using Helm
-        run: echo "[TODO] Deploying version ${{ steps.get_version.outputs.VERSION }} on Google Cloud using Helm"
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+      - name: Connect to GKE
+        run: |
+          gcloud container clusters get-credentials cluster-name --zone europe-west2-b --project ${{ secrets.GCP_PROJECT_ID }}
+      - name: Replace version in Helm templates
+        run: |
+          find helm/movie-app/templates -type f -exec sed -i 's/0.0.1/${{ steps.get_version.outputs.VERSION }}/g' {} \;
+      - name: Helm upgrade
+        run: |
+          helm upgrade movie-app helm/movie-app

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: movie
-          image: maximilienbey/movie-app_movie:v0.0.8
+          image: maximilienbey/movie-app_movie:v0.0.1
           ports:
             - containerPort: 3000
           livenessProbe:
