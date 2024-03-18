@@ -1,0 +1,73 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.TOKEN }}
+      - name: Use node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint:ci
+      - name: Test
+        run: npm run test
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ inputs.version != '' && github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.TOKEN }}
+      - name: Use node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Configure GIT
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Release
+        id: version
+        run: |
+          VERSION=`npm version ${{ github.event.inputs.version }}`
+          VERSION=${VERSION:1}
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Push changes
+        run: git push --follow-tags
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+
+  call_delivery_workflow:
+    needs: release
+    permissions: write-all
+    uses: ./.github/workflows/delivery.yml
+    secrets:
+      TOKEN: ${{ secrets.TOKEN }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    with: 
+      version: ${{ needs.release.outputs.version }}

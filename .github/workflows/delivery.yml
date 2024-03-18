@@ -14,12 +14,6 @@ on:
         required: true
       DOCKER_PASSWORD:
         required: true
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version'
-        required: true
-        type: string
 
 jobs:
   build:
