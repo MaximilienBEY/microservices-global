@@ -6,6 +6,7 @@ import * as joi from "joi"
 import { ZodValidationPipe } from "nestjs-zod"
 
 import { AppAuthModule } from "./auth/auth.module"
+import { MailModule } from "./mail/mail.module"
 import { PrismaModule } from "./prisma/prisma.module"
 import { AppThrottlerModule } from "./throttler/throttler.module"
 
@@ -22,11 +23,12 @@ const isCI = process.env.CI === "true"
       }),
     }),
     PrismaModule,
+    MailModule,
     AppAuthModule,
     AppThrottlerModule,
     TerminusModule,
   ],
   providers: [{ provide: APP_PIPE, useClass: ZodValidationPipe }],
-  exports: [PrismaModule, TerminusModule],
+  exports: [PrismaModule, MailModule, TerminusModule],
 })
 export class CommonModule {}

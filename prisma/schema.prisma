@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -63,13 +63,13 @@ model Poster {
 }
 
 model Movie {
-  uid                     String   @id @default(uuid())
-  name                    String
-  description             String
-  rate                    Int
-  duration                Int
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
+  uid         String   @id @default(uuid())
+  name        String
+  description String
+  rate        Int
+  duration    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   poster     Poster?
   categories Category[]
@@ -123,6 +123,7 @@ model Sceance {
 
 enum ReservationStatus {
   OPEN
+  PENDING
   EXPIRED
   CONFIRMED
 }
@@ -130,8 +131,10 @@ enum ReservationStatus {
 model Reservation {
   uid       String            @id @default(uuid())
   status    ReservationStatus
+  nbSeats   Int
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
+  expiresAt DateTime?
 
   userUid String
   user    User   @relation(fields: [userUid], references: [uid])

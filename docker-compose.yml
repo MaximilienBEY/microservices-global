@@ -112,6 +112,10 @@ services:
     depends_on:
       - db
     command: ["/bin/sh", "-c", "/usr/wait-for-it.sh db:5432 -- npx prisma db push"]
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - 1080:80
  
 volumes:
   pgdata:
