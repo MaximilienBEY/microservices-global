@@ -6,6 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "dev": "docker compose up",
+    "dev:reset": "docker compose up --build -V",
+    "prod": "docker compose -f docker-compose.prod.yml up --build -V",
+
+
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
@@ -18,10 +23,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/movie-app/test/jest-e2e.json",
-    "dev": "docker compose up",
-    "dev:reset": "docker compose up --build -V",
-    "prod": "docker compose -f docker-compose.prod.yml up --build -V"
+    "test:e2e": "jest --config ./apps/movie-app/test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
