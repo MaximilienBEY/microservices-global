@@ -117,7 +117,7 @@ This will upgrade the user's role to admin and return the updated user details.
 
 This project uses an email catcher to capture and display the emails sent by the application during development. This is useful for testing and debugging email-related features without sending actual emails.
 
-The email catcher runs as a separate service in the Docker environment. You can access it by navigating to `http://localhost:1080` in your web browser after starting the application.
+The email catcher runs as a separate service in the Docker environment. You can access it by navigating to `http://localhost:1080` (or the port specified in the .env) in your web browser after starting the application.
 
 ## Kubernetes Deployment
 
