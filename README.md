@@ -37,6 +37,16 @@ git submodule update
 
 These commands will clone all the submodules defined in the `.gitmodules` file.
 
+### Setting Up Environment Variables
+
+This project uses environment variables for configuration. The default values for these variables are stored in the `.env.example` file. To set up your own values, copy the `.env.example` file to a new file named `.env`:
+
+```sh
+cp .env.example .env
+```
+
+The environment variables in the `.env` file will be used by the Docker Compose configuration to set up the services. You can change everything except the DATABASE_URL and RABBIT_MQ_URL variables. Those need to be changed when deploying the application and not in local environment.
+
 ## Development
 
 To start the application in development mode, use the following command:
@@ -103,7 +113,11 @@ Once you are logged in, you can upgrade your user role to admin.
 
 This will upgrade the user's role to admin and return the updated user details.
 
-Please note that the system only allows one admin account. If an admin already exists, the uprank operation will fail.
+## Email Catcher
+
+This project uses an email catcher to capture and display the emails sent by the application during development. This is useful for testing and debugging email-related features without sending actual emails.
+
+The email catcher runs as a separate service in the Docker environment. You can access it by navigating to `http://localhost:1080` in your web browser after starting the application.
 
 ## Kubernetes Deployment
 
