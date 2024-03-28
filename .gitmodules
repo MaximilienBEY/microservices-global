@@ -1,15 +1,15 @@
 [submodule "apps/movie"]
 	path = apps/movie
-	url = git@github.com:MaximilienBEY/microservices-movie.git
+	url = https://github.com/MaximilienBEY/microservices-movie.git
 [submodule "apps/auth"]
 	path = apps/auth
-	url = git@github.com:MaximilienBEY/microservices-auth.git
+	url = https://github.com/MaximilienBEY/microservices-auth.git
 [submodule "apps/user"]
 	path = apps/user
-	url = git@github.com:MaximilienBEY/microservices-user.git
+	url = https://github.com/MaximilienBEY/microservices-user.git
 [submodule "apps/cinema"]
 	path = apps/cinema
-	url = git@github.com:MaximilienBEY/microservices-cinema.git
+	url = https://github.com/MaximilienBEY/microservices-cinema.git
 [submodule "apps/reservation"]
 	path = apps/reservation
-	url = git@github.com:MaximilienBEY/microservices-reservation.git
+	url = https://github.com/MaximilienBEY/microservices-reservation.git
