@@ -21,7 +21,7 @@ This project requires Docker to run. If you don't have Docker installed, you can
 To clone the repository, use the following command:
 
 ```sh
-git clone --recurse-submodules git@github.com:MaximilienBEY/microservices-global.git
+git clone --recurse-submodules https://github.com/MaximilienBEY/microservices-global.git
 ```
 
 This command will clone the repository and all its submodules.
