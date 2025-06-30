@@ -1,0 +1,29 @@
+# Example terraform.tfvars file
+# Copy this file to terraform.tfvars and fill in your values
+
+# Required: Your GCP Project ID
+project_id = "your-gcp-project-id"
+
+# Optional: Customize these values or use defaults
+project_name = "movie-app"
+region       = "us-central1"
+zone         = "us-central1-a"
+environment  = "prod"
+
+# Domain configuration
+domain_name = "movie-app.maximilien-bey.com"
+
+# GKE configuration
+node_count    = 3
+machine_type  = "e2-medium"
+disk_size_gb  = 50
+min_node_count = 1
+max_node_count = 5
+
+# Database configuration
+database_tier = "db-f1-micro"
+database_name = "movie"
+database_user = "movie"
+
+# Redis configuration
+redis_memory_size_gb = 1

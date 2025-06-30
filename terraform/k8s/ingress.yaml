@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: movie-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "movie-app-ip"
+    networking.gke.io/managed-certificates: "movie-app-ssl-cert"
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  rules:
+  - host: movieapp.maximilien.dev
+    http:
+      paths:
+      - path: /auth/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: auth-service
+            port:
+              number: 3001
+      - path: /user/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: user-service
+            port:
+              number: 3002
+      - path: /movie/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: movie-service
+            port:
+              number: 3003
+      - path: /cinema/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: cinema-service
+            port:
+              number: 3004
+      - path: /reservation/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: reservation-service
+            port:
+              number: 3005
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: movie-app-ssl-cert
+spec:
+  domains:
+  - movieapp.maximilien.dev

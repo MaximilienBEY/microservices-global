@@ -1,0 +1,230 @@
+{
+  "version": 4,
+  "terraform_version": "1.5.7",
+  "serial": 131,
+  "lineage": "249ea7c9-6d60-9655-ec13-81dbe9ca9250",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "google_compute_global_address",
+      "name": "private_ip_range",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "10.4.0.0",
+            "address_type": "INTERNAL",
+            "creation_timestamp": "2025-06-27T04:10:55.158-07:00",
+            "description": "",
+            "effective_labels": {},
+            "id": "projects/movie-app-464210/global/addresses/movie-app-private-ip",
+            "ip_version": "",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": {},
+            "name": "movie-app-private-ip",
+            "network": "https://www.googleapis.com/compute/v1/projects/movie-app-464210/global/networks/movie-app-vpc",
+            "prefix_length": 16,
+            "project": "movie-app-464210",
+            "purpose": "VPC_PEERING",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/movie-app-464210/global/addresses/movie-app-private-ip",
+            "terraform_labels": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc_network",
+            "google_project_service.required_apis"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_network",
+      "name": "vpc_network",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "auto_create_subnetworks": false,
+            "delete_default_routes_on_create": false,
+            "description": "",
+            "enable_ula_internal_ipv6": false,
+            "gateway_ipv4": "",
+            "id": "projects/movie-app-464210/global/networks/movie-app-vpc",
+            "internal_ipv6_range": "",
+            "mtu": 0,
+            "name": "movie-app-vpc",
+            "network_firewall_policy_enforcement_order": "AFTER_CLASSIC_FIREWALL",
+            "numeric_id": "6893452668114813638",
+            "project": "movie-app-464210",
+            "routing_mode": "REGIONAL",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/movie-app-464210/global/networks/movie-app-vpc",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.required_apis"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_service",
+      "name": "required_apis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "artifactregistry.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/artifactregistry.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "artifactregistry.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "cloudbuild.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/cloudbuild.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "cloudbuild.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "compute.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/compute.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "compute.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "container.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/container.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "container.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "redis.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/redis.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "redis.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "secretmanager.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/secretmanager.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "secretmanager.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "servicenetworking.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/servicenetworking.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "servicenetworking.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "sqladmin.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": false,
+            "disable_on_destroy": false,
+            "id": "movie-app-464210/sqladmin.googleapis.com",
+            "project": "movie-app-464210",
+            "service": "sqladmin.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_networking_connection",
+      "name": "private_vpc_connection",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": null,
+            "id": "projects%2Fmovie-app-464210%2Fglobal%2Fnetworks%2Fmovie-app-vpc:servicenetworking.googleapis.com",
+            "network": "projects/movie-app-464210/global/networks/movie-app-vpc",
+            "peering": "servicenetworking-googleapis-com",
+            "reserved_peering_ranges": [
+              "movie-app-private-ip"
+            ],
+            "service": "servicenetworking.googleapis.com",
+            "timeouts": null,
+            "update_on_creation_fail": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_global_address.redis_ip_range",
+            "google_compute_network.vpc_network",
+            "google_project_service.required_apis"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

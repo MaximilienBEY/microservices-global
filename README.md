@@ -21,7 +21,7 @@ This project requires Docker to run. If you don't have Docker installed, you can
 To clone the repository, use the following command:
 
 ```sh
-git clone --recurse-submodules git@github.com:MaximilienBEY/microservices-global.git
+git clone --recurse-submodules https://github.com/MaximilienBEY/microservices-global.git
 ```
 
 This command will clone the repository and all its submodules.
@@ -361,7 +361,7 @@ The Movie Service provides several endpoints for handling movie-related operatio
 - **Method**: POST
 - **Description**: Creates a new reservation for a specific movie.
 - **Access**: Authenticated users only
-- **Request Body**: `{ nbSeat: number, sceance: string, room: string }`
+- **Request Body**: `{ nbSeat: number, sceance: ID, room: ID }`
 - **Response**: `ReservationType`
 
 ## Cinema Service Endpoints
@@ -465,7 +465,7 @@ The Cinema Service provides several endpoints for handling cinema-related operat
 - **Method**: POST
 - **Description**: Creates a new sceance for a specific room in a cinema.
 - **Access**: Admins only
-- **Request Body**: `{ date: string, movie: string }`
+- **Request Body**: `{ date: string, movie: ID }`
 - **Response**: `SceanceType`
 
 ### `/cinema/:id/rooms/:roomId/sceances/:sceanceId`
@@ -473,7 +473,7 @@ The Cinema Service provides several endpoints for handling cinema-related operat
 - **Method**: PUT
 - **Description**: Updates the details of a specific sceance in a room.
 - **Access**: Admins only
-- **Request Body**: `{ date?: string, movie?: string }`
+- **Request Body**: `{ date?: string, movie?: ID }`
 - **Response**: `SceanceType`
 
 ### `/cinema/:id/rooms/:roomId/sceances/:sceanceId`
@@ -512,7 +512,7 @@ The Reservation Service provides several endpoints for handling reservation-rela
 - **Method**: POST
 - **Description**: Creates a new reservation.
 - **Access**: Internal use only
-- **Request Body**: `{ data: { nbSeats: number, sceance: string, room: string }, userId: string, movieId: string }`
+- **Request Body**: `{ data: { nbSeats: number, sceance: ID, room: ID }, userId: ID, movieId: ID }`
 - **Response**: `ReservationType`
 
 ### `(RMQ) reservation.movie.list`
@@ -520,7 +520,7 @@ The Reservation Service provides several endpoints for handling reservation-rela
 - **Method**: GET
 - **Description**: Lists all reservations for a specific movie.
 - **Access**: Internal use only
-- **Request Body**: `{ movieId: string }`
+- **Request Body**: `{ movieId: ID }`
 - **Response**: `ReservationType[]`
 
 ### `(RMQ) reservation.sceance.list`
@@ -528,5 +528,5 @@ The Reservation Service provides several endpoints for handling reservation-rela
 - **Method**: GET
 - **Description**: Lists all reservations for a specific sceance.
 - **Access**: Internal use only
-- **Request Body**: `{ movieId: string, sceanceId: string }`
+- **Request Body**: `{ movieId: ID, sceanceId: ID }`
 - **Response**: `ReservationType[]`
